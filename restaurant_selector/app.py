@@ -11,6 +11,7 @@ from sqlalchemy.orm import Session
 
 from restaurant_selector.database import SessionLocal, engine
 import restaurant_selector.models as models
+from restaurant_selector.helpers import update_restaurant_list
 
 logger = logging.getLogger()
 logging.basicConfig(
@@ -43,11 +44,12 @@ def set_up_database(db : Session = Depends(get_db)):
         f = open("restaurant_list.json",)
         restaurants = json.load(f)
         for restaurant in restaurants:
-            restaurant = restaurant["properties"]
+            # restaurant = restaurant["properties"]
             if "name" not in restaurant:
                 continue
 
             new_restaurant = models.Restaurant(
+                                id = restaurant["id"],
                                 name=restaurant["name"],
                                 cuisine = restaurant.get("cuisine", None),
                                 take_away = restaurant.get("take_away", None),
@@ -162,5 +164,21 @@ def get_random_restaurant(req: Request, db: Session = Depends(get_db)):
 
 
 @app.get("/all_restaurants")
-def get_random_restaurant(req: Request, db: Session = Depends(get_db)):
+def get_all_restaurant(req: Request, db: Session = Depends(get_db)):
     return db.query(models.Restaurant).all()
+
+
+
+@app.get("/update_restaurants")
+def update_restaurants(req: Request, db: Session = Depends(get_db)):
+    logger.info("Updating restaurant list..")
+    update_restaurant_list()
+    logger.info("Finished updating restaurant list..")
+    return "Finished updating restaurant list.."
+
+
+@app.get("/show_random_restaurant")
+def show_random_restaurant(req: Request, db: Session = Depends(get_db)):
+    selected_restaurant = choice(db.query(models.Restaurant).all())
+    return templates.TemplateResponse("random_restaurant.html",
+                                      {"request": req, "restaurant": selected_restaurant})
