@@ -3,18 +3,153 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Todo App - Fastapi</title>
+        <title>Restaurant Selector</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
         <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
     </head>
     <body>
         <div style="margin-top: 50px;" class="ui container">
-            <h1 class="ui center aligned header">Fastapi ToDo App</h1>
+            <h1 class="ui center aligned header">Restaurant Selector</h1>
 
             <form class="ui form" action="/add" method="post">
                 <div class="field">
-                    <label>Todo Title</label>
-                    <input type="text" name="title" placeholder="Enter ToDo task...">
+                    <label>Restaurant Name</label>
+                    <input type="text" name="title" placeholder="Enter Restaurant...">
+                    <label>Choose Tags</label>
+                    {% for tag in tags %} 
+                    <input type="checkbox" name="tags" value="{{tag}}"> 
+                    <span> {{tag}}  </span>
+                    <!-- <label for="{{tag}}"> {{tag}}</label><br> -->
+                    {% endfor %}
+                    <label>Choose an emoji</label>
+                    <select type="text" id="emoji" name="emoji">
+                        <option value="🍛">🍛 Curry Rice</option>
+                        <option value="🍜">🍜 Steaming Bowl</option>
+                        <option value="🍝">🍝 Spaghetti</option>
+                        <option value="🍠">🍠 Roasted Sweet Potato</option>
+                        <option value="🍢">🍢 Oden</option>
+                        <option value="🍣">🍣 Sushi</option>
+                        <option value="🍤">🍤 Fried Shrimp</option>
+                        <option value="🍥">🍥 Fish Cake with Swirl</option>
+                        <option value="🥮">🥮 Moon Cake</option>
+                        <option value="🍡">🍡 Dango</option>
+                        <option value="🥟">🥟 Dumpling</option>
+                        <option value="🥠">🥠 Fortune Cookie</option>
+                        <option value="🥡">🥡 Takeout Box</option>
+                        <option value="🍇">🍇 Grapes</option>
+                        <option value="🍈">🍈 Melon</option>
+                        <option value="🍉">🍉 Watermelon</option>
+                        <option value="🍊">🍊 Tangerine</option>
+                        <option value="🍋">🍋 Lemon</option>
+                        <option value="🍌">🍌 Banana</option>
+                        <option value="🍍">🍍 Pineapple</option>
+                        <option value="🥭">🥭 Mango</option>
+                        <option value="🍎">🍎 Red Apple</option>
+                        <option value="🍏">🍏 Green Apple</option>
+                        <option value="🍐">🍐 Pear</option>
+                        <option value="🍑">🍑 Peach</option>
+                        <option value="🍒">🍒 Cherries</option>
+                        <option value="🍓">🍓 Strawberry</option>
+                        <option value="🫐">🫐 Blueberries</option>
+                        <option value="🥝">🥝 Kiwi Fruit</option>
+                        <option value="🍅">🍅 Tomato</option>
+                        <option value="🫒">🫒 Olive</option>
+                        <option value="🥥">🥥 Coconut</option>
+                        <option value="🥑">🥑 Avocado</option>
+                        <option value="🍆">🍆 Eggplant</option>
+                        <option value="🥔">🥔 Potato</option>
+                        <option value="🥕">🥕 Carrot</option>
+                        <option value="🌽">🌽 Ear of Corn</option>
+                        <option value="🌶️">🌶️ Hot Pepper</option>
+                        <option value="🫑">🫑 Bell Pepper</option>
+                        <option value="🥒">🥒 Cucumber</option>
+                        <option value="🥬">🥬 Leafy Green</option>
+                        <option value="🥦">🥦 Broccoli</option>
+                        <option value="🧄">🧄 Garlic</option>
+                        <option value="🧅">🧅 Onion</option>
+                        <option value="🍄">🍄 Mushroom</option>
+                        <option value="🥜">🥜 Peanuts</option>
+                        <option value="🫘">🫘 Beans</option>
+                        <option value="🌰">🌰 Chestnut</option>
+                        <option value="🍞">🍞 Bread</option>
+                        <option value="🥐">🥐 Croissant</option>
+                        <option value="🥖">🥖 Baguette Bread</option>
+                        <option value="🫓">🫓 Flatbread</option>
+                        <option value="🥨">🥨 Pretzel</option>
+                        <option value="🥯">🥯 Bagel</option>
+                        <option value="🥞">🥞 Pancakes</option>
+                        <option value="🧇">🧇 Waffle</option>
+                        <option value="🧀">🧀 Cheese Wedge</option>
+                        <option value="🍖">🍖 Meat on Bone</option>
+                        <option value="🍗">🍗 Poultry Leg</option>
+                        <option value="🥩">🥩 Cut of Meat</option>
+                        <option value="🥓">🥓 Bacon</option>
+                        <option value="🍔">🍔 Hamburger</option>
+                        <option value="🍟">🍟 French Fries</option>
+                        <option value="🍕">🍕 Pizza</option>
+                        <option value="🌭">🌭 Hot Dog</option>
+                        <option value="🥪">🥪 Sandwich</option>
+                        <option value="🌮">🌮 Taco</option>
+                        <option value="🌯">🌯 Burrito</option>
+                        <option value="🫔">🫔 Tamale</option>
+                        <option value="🥙">🥙 Stuffed Flatbread</option>
+                        <option value="🧆">🧆 Falafel</option>
+                        <option value="🥚">🥚 Egg</option>
+                        <option value="🍳">🍳 Cooking</option>
+                        <option value="🥘">🥘 Shallow Pan of Food</option>
+                        <option value="🍲">🍲 Pot of Food</option>
+                        <option value="🫕">🫕 Fondue</option>
+                        <option value="🥣">🥣 Bowl with Spoon</option>
+                        <option value="🥗">🥗 Green Salad</option>
+                        <option value="🍿">🍿 Popcorn</option>
+                        <option value="🧈">🧈 Butter</option>
+                        <option value="🧂">🧂 Salt</option>
+                        <option value="🥫">🥫 Canned Food</option>
+                        <option value="🍱">🍱 Bento Box</option>
+                        <option value="🍘">🍘 Rice Cracker</option>
+                        <option value="🍙">🍙 Rice Ball</option>
+                        <option value="🍚">🍚 Cooked Rice</option>
+                        <option value="🦪">🦪 Oyster</option>
+                        <option value="🍦">🍦 Soft Ice Cream</option>
+                        <option value="🍧">🍧 Shaved Ice</option>
+                        <option value="🍨">🍨 Ice Cream</option>
+                        <option value="🍩">🍩 Doughnut</option>
+                        <option value="🍪">🍪 Cookie</option>
+                        <option value="🎂">🎂 Birthday Cake</option>
+                        <option value="🍰">🍰 Shortcake</option>
+                        <option value="🧁">🧁 Cupcake</option>
+                        <option value="🥧">🥧 Pie</option>
+                        <option value="🍫">🍫 Chocolate Bar</option>
+                        <option value="🍬">🍬 Candy</option>
+                        <option value="🍭">🍭 Lollipop</option>
+                        <option value="🍮">🍮 Custard</option>
+                        <option value="🍯">🍯 Honey Pot</option>
+                        <option value="🍼">🍼 Baby Bottle</option>
+                        <option value="🥛">🥛 Glass of Milk</option>
+                        <option value="☕">☕ Hot Beverage</option>
+                        <option value="🫖">🫖 Teapot</option>
+                        <option value="🍵">🍵 Teacup Without Handle</option>
+                        <option value="🍶">🍶 Sake</option>
+                        <option value="🍾">🍾 Bottle with Popping Cork</option>
+                        <option value="🍷">🍷 Wine Glass</option>
+                        <option value="🍸">🍸 Cocktail Glass</option>
+                        <option value="🍹">🍹 Tropical Drink</option>
+                        <option value="🍺">🍺 Beer Mug</option>
+                        <option value="🍻">🍻 Clinking Beer Mugs</option>
+                        <option value="🥂">🥂 Clinking Glasses</option>
+                        <option value="🥃">🥃 Tumbler Glass</option>
+                        <option value="🫗">🫗 Pouring Liquid</option>
+                        <option value="🥤">🥤 Cup with Straw</option>
+                        <option value="🧋">🧋 Bubble Tea</option>
+                        <option value="🧃">🧃 Beverage Box</option>
+                        <option value="🧉">🧉 Mate</option>
+                        <option value="🧊">🧊 Ice</option>
+                        <option value="🥢">🥢 Chopsticks</option>
+                        <option value="🍽️">🍽️ Fork and Knife with Plate</option>
+                        <option value="🍴">🍴 Fork and Knife</option>
+                        <option value="🥄">🥄 Spoon</option>
+                        <option value="🫙">🫙 Jar</option>
+                      </select>
                     <br>
                 </div>
                 <button class="ui blue button" type="submit">Add</button>
@@ -22,18 +157,18 @@
 
             <hr>
 
-            {% for todo in todo_list %} 
+            {% for restaurant in restaurant_list %} 
             <div class="ui segment">
-                <p class="ui big header">{{ todo.id }} | {{ todo.title }}</p>
+                <p class="ui big header"> {{ restaurant.title }}  {{ restaurant.emoji }}</p>
 
-                {% if todo.complete == False %}
+                <!-- {% if restaurant.complete == False %}
                 <span class="ui gray label">Not Complete</span>
                 {% else %}
                 <span class="ui green label">Complete</span>
-                {% endif %}
+                {% endif %} -->
 
-                <a class="ui blue button" href="/update/{{ todo.id }}">Update</a>
-                <a class="ui red button" href="/delete/{{ todo.id }}">Delete</a>
+
+                <a class="ui red button" href="/delete/{{ restaurant.id }}">Delete</a>
 
             </div>
             {% endfor %}
