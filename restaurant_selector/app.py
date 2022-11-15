@@ -2,6 +2,7 @@ import logging
 from random import randint
 from enum import Enum
 from typing import List
+import json
 
 from fastapi import FastAPI, Depends, Request, Form, status
 from starlette.responses import RedirectResponse
@@ -25,14 +26,54 @@ templates = Jinja2Templates(directory="templates")
 app = FastAPI()
 
 
-# Dependency
+def set_up_database(db : SessionLocal = None):
+    f = open("restaurant_list.json",)
+    restaurants = json.load(f)
+    for restaurant in restaurants:
+        restaurant = restaurant["properties"]
+        if "name" not in restaurant:
+            continue
+        name = restaurant["name"]
+        logger.debug(f"NAME = {name}")
+        logger.debug(restaurant)
+        email = restaurant["email"]
+
+        # new_restaurant = models.Restaurant(
+        #                     name=restaurant["name"],
+        #                     cuisine = restaurant["cuisine"]
+        #                     take_away = restaurant.get("take_away", None)
+        #                     email = restaurant.get("email", None)
+        #                     indoor_seating = 
+        #                     level = 
+        #                     opening_hours = 
+        #                     outdoor_seating = 
+        #                     payment_mastercard = 
+        #                     payment_visa = 
+        #                     phone = 
+        #                     website = 
+        #                     wheelchair = 
+        #                     smoking = 
+        #                     diet_vegan = 
+        #                     diet_vegetarian = 
+        # db.add(new_restaurant)
+    # db.commit()
+    
+
+set_up_database()
+
 def get_db():
     db = SessionLocal()
     try:
+        restaurants = db.query(models.Restaurant).all()
+        if not restaurants:
+            set_up_database(db)
         yield db
     finally:
         db.close()
 
+
+
+# Dependency
 
 class RestaurantTags(str, Enum):
     vegan = "Vegan"
@@ -44,24 +85,12 @@ class RestaurantTags(str, Enum):
     mexican = "Mexican"
 
 @app.get("/")
-async def choose_restaurant(req: Request, db: Session = Depends(get_db)):
-    restaurants = db.query(models.Restaurant).all()
-    selected_restaurant = {}
-    if restaurants:
-        # random_index = randint(0,len(restaurants)-1)
-        random_index = -1
-        selected_restaurant =  restaurants[random_index]
-
-    return selected_restaurant
-
-
-
-
-@app.get("/add_restaurant")
 async def home(req: Request, db: Session = Depends(get_db)):
-    restaurants = db.query(models.Restaurant).all()
+    f = open("restaurant_list.json",)
+    restaurants = json.load(f)
+
     return templates.TemplateResponse("base.html",
-                                      {"request": req, "restaurant_list": restaurants, 'tags': [e.value for e in RestaurantTags]})
+                                      {"request": req, "restaurant_list": restaurants})
 
 
 
@@ -99,3 +128,23 @@ def delete(req: Request, restaurant_id: int, db: Session = Depends(get_db)):
     db.commit()
     url = app.url_path_for("home")
     return RedirectResponse(url=url, status_code=status.HTTP_303_SEE_OTHER)
+
+
+
+@app.get("/random_restaurant")
+def get_random_restaurant(req: Request, db: Session = Depends(get_db)):
+    f = open("restaurant_list.json",)
+    restaurants = json.load(f)
+    if restaurants:
+        random_index = randint(0,len(restaurants)-1)
+        selected_restaurant =  restaurants[random_index]["properties"]
+    return selected_restaurant
+
+
+
+@app.get("/all_restaurants")
+def get_random_restaurant(req: Request, db: Session = Depends(get_db)):
+    f = open("restaurant_list.json",)
+    restaurants = json.load(f)
+
+    return restaurants
