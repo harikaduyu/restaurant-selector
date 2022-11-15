@@ -14,7 +14,15 @@
             <form class="ui form" action="/add" method="post">
                 <div class="field">
                     <label>Restaurant Name</label>
-                    <input type="text" name="title" placeholder="Enter Restaurant...">
+                    <input type="text" name="name" placeholder="Enter Restaurant...">
+                    <label>Cuisine </label>
+                    <input type="text" name="cuisine" placeholder="Enter cuisine...">
+                    <label>Take Away</label>
+                    <input type="text" name="take_away" placeholder="Is Take away an option?">
+                    <label>Indoor seating</label>
+                    <input type="text" name="indoor_seating" placeholder="Is indoor seating possible?">
+                    <label>Opening hours</label>
+                    <input type="text" name="opening_hours" placeholder="Enter opening hours...">
 
                     <br>
                 </div>
@@ -25,16 +33,15 @@
 
             {% for restaurant in restaurant_list %} 
             <div class="ui segment">
-                <p class="ui big header"> {{ restaurant.properties.name }}  </p>
-
-                <!-- {% if restaurant.complete == False %}
-                <span class="ui gray label">Not Complete</span>
-                {% else %}
-                <span class="ui green label">Complete</span>
-                {% endif %} -->
+                <p class="ui big header"> {{ restaurant.name }}  </p>
+                
+                <span>Cuisine: {{ restaurant.cuisine}} | </span>
+                <span>Opening Hours {{ restaurant.opening_hours }}| </span>
+                <span>Take away: {{ restaurant.take_away}} | </span>
 
 
-                <a class="ui red button" href="/delete/{{ restaurant.id }}">Delete</a>
+
+                <a class="ui button" href="/delete/{{ restaurant.id }}">Delete</a>
 
             </div>
             {% endfor %}
