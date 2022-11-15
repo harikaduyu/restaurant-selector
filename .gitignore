@@ -1,0 +1,22 @@
+*.py[co]
+__pycache__/
+frontend/.eslintcache
+.ipynb_checkpoints
+
+*.sqlite
+
+build/
+dist/
+*.egg-info/
+MANIFEST
+
+.env
+venv/
+.venv/
+
+# pytest-cov
+.coverage
+htmlcov/
+
+# generated yaml
+k8s/*.yaml
