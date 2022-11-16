@@ -92,9 +92,35 @@ class RestaurantTags(str, Enum):
 @app.get("/")
 async def home(req: Request, db: Session = Depends(get_db)):
     restaurants = db.query(models.Restaurant).all()
+    cuisine_list = []
+    for restaurant in db.query(models.Restaurant.cuisine).distinct():
+        logger.info(restaurant)
+        cuisine_list.append(restaurant.cuisine)
     return templates.TemplateResponse("base.html",
-                                      {"request": req, "restaurant_list": restaurants})
+                                      {"request": req, "restaurant_list": restaurants, "cuisine_list" : cuisine_list})
 
+
+
+@app.post("/search")
+def search(
+    req: Request,
+    name: str = Form(''),
+    cuisine: str = Form(''),
+    db: Session = Depends(get_db)
+):
+
+    if cuisine != '-':
+        filter_query = models.Restaurant.cuisine == cuisine
+    if name:
+        filter_query =  models.Restaurant.name == name
+
+    restaurants = db.query(models.Restaurant).filter(filter_query)
+    cuisine_list = []
+    for restaurant in db.query(models.Restaurant.cuisine).distinct():
+        logger.info(restaurant)
+        cuisine_list.append(restaurant.cuisine)
+    return templates.TemplateResponse("base.html",
+                                      {"request": req, "restaurant_list": restaurants, "cuisine_list" : cuisine_list})
 
 
 @app.post("/add")
@@ -140,6 +166,7 @@ def add(
     db.commit()
     url = app.url_path_for("home")
     return RedirectResponse(url=url, status_code=status.HTTP_303_SEE_OTHER)
+
 
 
 # @app.get("/update/{restaurant_id}")
