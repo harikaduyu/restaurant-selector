@@ -47,25 +47,30 @@ def set_up_database(db : Session = Depends(get_db)):
             # restaurant = restaurant["properties"]
             if "name" not in restaurant:
                 continue
-
+            address = restaurant.get('addr:street', '') + ' ' + \
+                      restaurant.get('addr:housenumber', '') + ' ' + \
+                      restaurant.get('addr:postcode', '') +  ' ' + \
+                      restaurant.get('addr:city', '')
+                      
             new_restaurant = models.Restaurant(
                                 id = restaurant["id"],
                                 name=restaurant["name"],
-                                cuisine = restaurant.get("cuisine", None),
-                                take_away = restaurant.get("take_away", None),
-                                email = restaurant.get("email", None),
-                                indoor_seating = restaurant.get("indoor_seating" , None),
-                                level = restaurant.get("level", None),
-                                opening_hours = restaurant.get("opening_hours", None),
-                                outdoor_seating = restaurant.get("outdoor_seating", None),
-                                payment_mastercard = restaurant.get("payment:mastercard", None),
-                                payment_visa = restaurant.get("payment:visa", None),
-                                phone = restaurant.get("phone", None),
-                                website = restaurant.get("website", None),
-                                wheelchair = restaurant.get("wheelchair", None),
-                                smoking = restaurant.get("smoking", None),
-                                diet_vegan = restaurant.get("diet:vegan", None),
-                                diet_vegetarian = restaurant.get("diet:vegetarian", None))
+                                cuisine = restaurant.get("cuisine", '-'),
+                                take_away = restaurant.get("takeaway", '-'),
+                                email = restaurant.get("email", '-'),
+                                indoor_seating = restaurant.get("indoor_seating" , '-'),
+                                level = restaurant.get("level", '-'),
+                                opening_hours = restaurant.get("opening_hours", '-'),
+                                outdoor_seating = restaurant.get("outdoor_seating", '-'),
+                                payment_mastercard = restaurant.get("payment:mastercard", '-'),
+                                payment_visa = restaurant.get("payment:visa", '-'),
+                                phone = restaurant.get("phone", '-'),
+                                website = restaurant.get("website", '-'),
+                                wheelchair = restaurant.get("wheelchair", '-'),
+                                smoking = restaurant.get("smoking", '-'),
+                                diet_vegan = restaurant.get("diet:vegan", '-'),
+                                diet_vegetarian = restaurant.get("diet:vegetarian", '-'),
+                                address = address)
             db.add(new_restaurant)
         db.commit()
     
@@ -180,5 +185,14 @@ def update_restaurants(req: Request, db: Session = Depends(get_db)):
 @app.get("/show_random_restaurant")
 def show_random_restaurant(req: Request, db: Session = Depends(get_db)):
     selected_restaurant = choice(db.query(models.Restaurant).all())
-    return templates.TemplateResponse("random_restaurant.html",
+
+    return templates.TemplateResponse("restaurant_details.html",
                                       {"request": req, "restaurant": selected_restaurant})
+
+
+@app.get("/show_restaurant/{restaurant_id}")
+def show_restaurant_details(req: Request, restaurant_id: int, db: Session = Depends(get_db)):
+    restaurant = db.query(models.Restaurant).filter(models.Restaurant.id == restaurant_id).first()
+
+    return templates.TemplateResponse("restaurant_details.html",
+                                      {"request": req, "restaurant": restaurant})

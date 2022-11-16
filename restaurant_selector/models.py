@@ -24,3 +24,4 @@ class Restaurant(Base):
     smoking = Column(String(50))
     diet_vegan = Column(String(50))
     diet_vegetarian = Column(String(50))
+    address = Column(String(150))

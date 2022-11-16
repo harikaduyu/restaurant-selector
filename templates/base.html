@@ -34,14 +34,12 @@
             {% for restaurant in restaurant_list %} 
             <div class="ui segment">
                 <p class="ui big header"> {{ restaurant.name }}  </p>
-                
-                <span>Cuisine: {{ restaurant.cuisine}} | </span>
-                <span>Opening Hours {{ restaurant.opening_hours }}| </span>
-                <span>Take away: {{ restaurant.take_away}} | </span>
+                <p>{{ restaurant.address}}</p>
+                <p>Cuisine: {{ restaurant.cuisine}}</p>
+                <p>Opening Hours {{ restaurant.opening_hours }}</p>
 
 
-
-                <a class="ui button" href="/delete/{{ restaurant.id }}">Delete</a>
+                <a class="ui button" href="/show_restaurant/{{ restaurant.id }}">Details</a>
 
             </div>
             {% endfor %}
