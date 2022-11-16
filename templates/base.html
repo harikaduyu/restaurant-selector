@@ -10,23 +10,27 @@
     <body>
         <div style="margin-top: 50px;" class="ui container">
             <h1 class="ui center aligned header">Restaurant Selector</h1>
-
-            <form class="ui form" action="/add" method="post">
+            <a class="ui button" href="/show_random_restaurant/">Show Random Restaurant</a>
+            <p>
+            </p>
+            <form class="ui form" action="/search" method="post">
                 <div class="field">
                     <label>Restaurant Name</label>
-                    <input type="text" name="name" placeholder="Enter Restaurant...">
+                    <input type="text" name="name" placeholder="Search restaurant by name...">
                     <label>Cuisine </label>
-                    <input type="text" name="cuisine" placeholder="Enter cuisine...">
-                    <label>Take Away</label>
+                    <select type="text" id="cuisine" name="cuisine">
+                    {% for cuisine in cuisine_list %} 
+                        <option value="{{cuisine}}">{{cuisine}}</option>
+                    {% endfor %}
+                    </select>
+                    <!-- <label>Take Away</label>
                     <input type="text" name="take_away" placeholder="Is Take away an option?">
                     <label>Indoor seating</label>
-                    <input type="text" name="indoor_seating" placeholder="Is indoor seating possible?">
-                    <label>Opening hours</label>
-                    <input type="text" name="opening_hours" placeholder="Enter opening hours...">
+                    <input type="text" name="indoor_seating" placeholder="Is indoor seating possible?"> -->
 
                     <br>
                 </div>
-                <button class="ui blue button" type="submit">Add</button>
+                <button class="ui blue button" type="submit">Search</button>
             </form>
 
             <hr>
